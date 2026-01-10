@@ -2,6 +2,8 @@ html,
 body {
   margin: 0;
   padding: 0;
+  background-color: #f5f1eb;
+  color: #111;
 }
 
 canvas {
@@ -10,6 +12,15 @@ canvas {
 
 :root {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+.intro {
+  border: 1px solid #e4dfd7;
+  padding: 24px;
+}
+
+.intro strong {
+  color: #000;
 }
 
 .tabs {

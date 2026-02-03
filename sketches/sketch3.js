@@ -51,13 +51,13 @@ registerSketch('sk3', function (p) {
 
     for (let i = 0; i < totalSecondTicks; i++) {
       if (i < filledSecondTicks) {
-        p.stroke(255, 120, 80);
+        p.stroke(255, 0, 0);
       }
       else {
         p.stroke(220);
       }
       p.strokeWeight(4);
-      p.line(0, -125, 0, -135);
+      p.line(0, -115, 0, -135);
       p.rotate(360 / totalSecondTicks);
     }
     p.pop();

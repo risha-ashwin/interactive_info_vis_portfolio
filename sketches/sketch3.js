@@ -31,6 +31,7 @@ registerSketch('sk3', function (p) {
     let minuteRingDiameter = 340;
     let secondRingDiameter = 250;
 
+    // Seconds Ticks
     p.noFill();
     p.stroke(210);
 
@@ -59,6 +60,26 @@ registerSketch('sk3', function (p) {
       p.strokeWeight(4);
       p.line(0, -115, 0, -135);
       p.rotate(360 / totalSecondTicks);
+    }
+    p.pop();
+
+    // Minutes Ticks
+    p.push();
+    p.rotate(-90);
+
+    let totalMinuteTicks = 60;
+    let filledMinuteTicks = minute;
+
+    for (let i = 0; i < totalMinuteTicks; i++) {
+      if (i < filledMinuteTicks) {
+        p.stroke(80, 140, 255);
+      }
+      else {
+        p.stroke(220);
+      }
+      p.strokeWeight(5);
+      p.line(0, -158, 0, -186);
+      p.rotate(360 / totalMinuteTicks);
     }
     p.pop();
 

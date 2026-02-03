@@ -11,7 +11,7 @@ registerSketch('sk3', function (p) {
   p.draw = function () {
     p.background(248);
 
-    let hour = p.hour()
+    let hour = p.hour();
     let minute = p.minute();
     let second = p.second();
 
@@ -42,6 +42,25 @@ registerSketch('sk3', function (p) {
 
     p.strokeWeight(10);
     p.arc(0, 0, secondRingDiameter, secondRingDiameter, 0, 360);
+
+    p.push();
+    p.rotate(-90);
+
+    let totalSecondTicks = 60;
+    let filledSecondTicks = second;
+
+    for (let i = 0; i < totalSecondTicks; i++) {
+      if (i < filledSecondTicks) {
+        p.stroke(255, 120, 80);
+      }
+      else {
+        p.stroke(220);
+      }
+      p.strokeWeight(4);
+      p.line(0, -125, 0, -135);
+      p.rotate(360 / totalSecondTicks);
+    }
+    p.pop();
 
     p.fill(20);
     p.noStroke();

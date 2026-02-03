@@ -107,5 +107,9 @@ registerSketch('sk3', function (p) {
     p.noStroke();
     p.textSize(32);
     p.text(hour + ":" + minuteText + ":" + secondText, 0, 0);
+
+    p.fill(120);
+    p.textSize(12);
+    p.text("OUTER = HOURS, MIDDLE - MINUTES, INNER = SECONDS", 0, 36);
   };
 });

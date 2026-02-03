@@ -34,13 +34,13 @@ registerSketch('sk3', function (p) {
     p.noFill();
     p.stroke(210);
 
-    p.strokWeight(18);
+    p.strokeWeight(18);
     p.arc(0, 0, hourRingDiameter, hourRingDiameter, 0, 360);
 
-    p.strokWeight(14);
+    p.strokeWeight(14);
     p.arc(0, 0, minuteRingDiameter, minuteRingDiameter, 0, 360);
 
-    p.strokWeight(10);
+    p.strokeeWeight(10);
     p.arc(0, 0, secondRingDiameter, secondRingDiameter, 0, 360);
 
     p.fill(20);

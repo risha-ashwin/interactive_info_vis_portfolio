@@ -59,11 +59,11 @@ registerSketch('sk3', function (p) {
     let minuteRadius = minuteRingDiameter / 2;
     let secondRadius = secondRingDiameter / 2;
 
-
-    p.push();
-
-
+    
     // Seconds Ticks
+    p.push();
+    p.rotate(-90);
+
     let totalSecondTicks = 60;
     let filledSecondTicks = second;
 
@@ -85,6 +85,7 @@ registerSketch('sk3', function (p) {
 
     // Minutes Ticks
     p.push();
+    p.rotate(-90);
 
     let totalMinuteTicks = 60;
     let filledMinuteTicks = minute;
@@ -107,6 +108,7 @@ registerSketch('sk3', function (p) {
 
     //Hours Ticks
     p.push();
+    p.rotate(-90);
 
     let totalHourTicks = 24;
     let filledHourTicks = hour;

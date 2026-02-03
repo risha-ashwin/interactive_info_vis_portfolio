@@ -33,7 +33,7 @@ registerSketch('sk3', function (p) {
 
     // Seconds Ticks
     p.noFill();
-    p.stroke(210);
+    p.stroke(235);
 
     p.strokeWeight(18);
     p.arc(0, 0, hourRingDiameter, hourRingDiameter, 0, 360);
@@ -55,7 +55,7 @@ registerSketch('sk3', function (p) {
         p.stroke(255, 0, 0);
       }
       else {
-        p.stroke(220);
+        p.stroke(170);
       }
       p.strokeWeight(4);
       p.line(0, -115, 0, -135);

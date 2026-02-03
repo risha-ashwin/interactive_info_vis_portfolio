@@ -25,9 +25,27 @@ registerSketch('sk3', function (p) {
       secondText = "0" + second;
     }
 
+    p.translate(p.width / 2, p.height / 2);
+
+    let hourRingDiameter = 440;
+    let minuteRingDiameter = 340;
+    let secondRingDiameter = 250;
+
+    p.noFill();
+    p.stroke(210);
+
+    p.strokWeight(18);
+    p.arc(0, 0, hourRingDiameter, hourRingDiameter, 0, 360);
+
+    p.strokWeight(14);
+    p.arc(0, 0, minuteRingDiameter, minuteRingDiameter, 0, 360);
+
+    p.strokWeight(10);
+    p.arc(0, 0, secondRingDiameter, secondRingDiameter, 0, 360);
+
     p.fill(20);
     p.noStroke();
     p.textSize(32);
-    p.text(hour + ":" + minuteText + ":" + secondText, p.width / 2, p.height / 2);
+    p.text(hour + ":" + minuteText + ":" + secondText, 0, 0);
   };
 });

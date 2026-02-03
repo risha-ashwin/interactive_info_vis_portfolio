@@ -61,7 +61,6 @@ registerSketch('sk3', function (p) {
 
 
     p.push();
-    p.rotate(-90);
 
 
     // Seconds Ticks
@@ -79,14 +78,13 @@ registerSketch('sk3', function (p) {
         p.stroke(emptyTickColor);
       }
       p.strokeWeight(4);
-      p.line(0, -secondInner, 0, -secondOuter);
+      p.line(secondInner, 0, secondOuter, 0);
       p.rotate(360 / totalSecondTicks);
     }
     p.pop();
 
     // Minutes Ticks
     p.push();
-    p.rotate(-90);
 
     let totalMinuteTicks = 60;
     let filledMinuteTicks = minute;
@@ -102,14 +100,13 @@ registerSketch('sk3', function (p) {
         p.stroke(emptyTickColor);
       }
       p.strokeWeight(5);
-      p.line(0, -minuteInner, 0, -minuteOuter);
+      p.line(minuteInner, 0, minuteOuter, 0);
       p.rotate(360 / totalMinuteTicks);
     }
     p.pop();
 
     //Hours Ticks
     p.push();
-    p.rotate(-90);
 
     let totalHourTicks = 24;
     let filledHourTicks = hour;
@@ -125,7 +122,7 @@ registerSketch('sk3', function (p) {
         p.stroke(emptyTickColor);
       }
       p.strokeWeight(7);
-      p.line(0, -hourInner, 0, -hourOuter);
+      p.line(hourInner, 0, hourOuter, 0);
       p.rotate(360 / totalHourTicks);
     }
     p.pop();

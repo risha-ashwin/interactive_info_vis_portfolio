@@ -83,6 +83,26 @@ registerSketch('sk3', function (p) {
     }
     p.pop();
 
+    //Hours Ticks
+    p.push();
+    p.rotate(-90);
+
+    let totalHourTicks = 24;
+    let filledHourTicks = hour;
+
+    for (let i = 0; i < totalHourTicks; i++) {
+      if (i < filledHourTicks) {
+        p.stroke(90, 200, 140);
+      }
+      else {
+        p.stroke(220);
+      }
+      p.strokeWeight(7);
+      p.line(0, -205, 0, -250);
+      p.rotate(360 / totalHourTicks);
+    }
+    p.pop();
+
     p.fill(20);
     p.noStroke();
     p.textSize(32);

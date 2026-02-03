@@ -25,40 +25,61 @@ registerSketch('sk3', function (p) {
       secondText = "0" + second;
     }
 
+    let secondsColor = p.color(244, 143, 177);
+    let minutesColor = p.color(144, 202, 249);
+    let hoursColor = p.color(165, 214, 167);
+    let emptyTickColor = p.color(205);
+    let trackColor = p.color(235);
+    let textColor = p.color(30);
+
     p.translate(p.width / 2, p.height / 2);
 
     let hourRingDiameter = 440;
     let minuteRingDiameter = 340;
     let secondRingDiameter = 250;
 
-    // Seconds Ticks
-    p.noFill();
-    p.stroke(235);
+    let hourTrackWeight = 18;
+    let minuteTrackWeight = 14;
+    let secondTrackWeight = 10;
 
-    p.strokeWeight(18);
+
+    p.noFill();
+    p.stroke(trackColor);
+
+    p.strokeWeight(hourTrackWeight);
     p.arc(0, 0, hourRingDiameter, hourRingDiameter, 0, 360);
 
-    p.strokeWeight(14);
+    p.strokeWeight(minuteTrackWeight);
     p.arc(0, 0, minuteRingDiameter, minuteRingDiameter, 0, 360);
 
-    p.strokeWeight(10);
+    p.strokeWeight(secondTrackWeight);
     p.arc(0, 0, secondRingDiameter, secondRingDiameter, 0, 360);
+
+    let hourRadius = hourRingDiameter / 2;
+    let minuteRadius = minuteRingDiameter / 2;
+    let secondRadius = secondRingDiameter / 2;
+
 
     p.push();
     p.rotate(-90);
 
+
+    // Seconds Ticks
     let totalSecondTicks = 60;
     let filledSecondTicks = second;
 
+    let secondInner = secondRadius - (secondTrackWeight / 2) + 1;
+    let secondOuter = secondRadius + (secondTrackWeight / 2) - 1;
+
     for (let i = 0; i < totalSecondTicks; i++) {
       if (i < filledSecondTicks) {
-        p.stroke(255, 0, 0);
+        p.stroke(secondsColor);
       }
       else {
-        p.stroke(170);
+        p.stroke(emptyTickColor);
       }
       p.strokeWeight(4);
-      p.line(0, -115, 0, -135);
+      p.line(0, -secondInner, 0, -secondOuter);
       p.rotate(360 / totalSecondTicks);
     }
     p.pop();
@@ -70,15 +91,18 @@ registerSketch('sk3', function (p) {
     let totalMinuteTicks = 60;
     let filledMinuteTicks = minute;
 
+    let minuteInner = minuteRadius - (minuteTrackWeight / 2) + 1;
+    let minuteOuter = minuteRadius + (minuteTrackWeight / 2) - 1;
+
     for (let i = 0; i < totalMinuteTicks; i++) {
       if (i < filledMinuteTicks) {
-        p.stroke(80, 140, 255);
+        p.stroke(minutesColor);
       }
       else {
-        p.stroke(220);
+        p.stroke(emptyTickColor);
       }
       p.strokeWeight(5);
-      p.line(0, -158, 0, -186);
+      p.line(0, -minuteInner, 0, -minuteOuter);
       p.rotate(360 / totalMinuteTicks);
     }
     p.pop();
@@ -90,26 +114,29 @@ registerSketch('sk3', function (p) {
     let totalHourTicks = 24;
     let filledHourTicks = hour;
 
+    let hourInner = hourRadius - (hourTrackWeight / 2) + 1;
+    let hourOuter = hourRadius + (hourTrackWeight / 2) - 1;
+
     for (let i = 0; i < totalHourTicks; i++) {
       if (i < filledHourTicks) {
-        p.stroke(90, 200, 140);
+        p.stroke(hoursColor);
       }
       else {
-        p.stroke(220);
+        p.stroke(emptyTickColor);
       }
       p.strokeWeight(7);
-      p.line(0, -205, 0, -250);
+      p.line(0, -hourInner, 0, -hourOuter);
       p.rotate(360 / totalHourTicks);
     }
     p.pop();
 
-    p.fill(20);
+    p.fill(textColor);
     p.noStroke();
     p.textSize(32);
     p.text(hour + ":" + minuteText + ":" + secondText, 0, 0);
 
     p.fill(120);
     p.textSize(12);
-    p.text("OUTER = HOURS, MIDDLE - MINUTES, INNER = SECONDS", 0, 36);
+    p.text("OUTER = HOURS, MIDDLE = MINUTES, INNER = SECONDS", 0, 250);
   };
 });

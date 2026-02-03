@@ -40,7 +40,7 @@ registerSketch('sk3', function (p) {
     p.strokeWeight(14);
     p.arc(0, 0, minuteRingDiameter, minuteRingDiameter, 0, 360);
 
-    p.strokeeWeight(10);
+    p.strokeWeight(10);
     p.arc(0, 0, secondRingDiameter, secondRingDiameter, 0, 360);
 
     p.fill(20);

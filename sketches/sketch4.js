@@ -6,15 +6,18 @@ registerSketch('sk4', function (p) {
     p.noLoop();
   };
   p.draw = function () {
-    p.background(245);
-    p.translate(p.width / 2, p.height / 2);
+    p.background(248);
+    p.translate(p.width / 2, p.height / 2 + 80);
 
     p.fill(240);
     p.noStroke();
-    p.rect(-40, -200, 80, 300, 10);
+    p.rect(-40, -200, 80, 300, 12);
+
+    p.fill(220)
+    p.ellipse(0, 110, 140, 30)
 
     p.fill(255, 180, 80);
-    p.ellipse(0, -220, 30, 45);
+    p.ellipse(0, -230, 30, 50);
   };
   
 });

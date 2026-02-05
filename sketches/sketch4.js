@@ -12,7 +12,6 @@ registerSketch('sk4', function (p) {
     let minute = p.minute();
     let isPM = hour >= 12;
     let minuteText = minute < 10 ? "0" + minute : "" + minute;
-    let secondText = second < 10 ? "0" + second : "" + second;
 
     p.translate(p.width / 2, p.height / 2 + 50);
 
@@ -26,7 +25,7 @@ registerSketch('sk4', function (p) {
     p.rect(-40, candleTopY + burnedHeight, 80, candleHeight - burnedHeight, 12);
 
     let marksTopY = candleTopY + burnedHeight + 10;
-    let marksBottomY = candleTopY + burnedHeight + (candleHeight - burnedHeight) - 10;
+    let marksBottomY = candleTopY + candleHeight - 10;
     
     let minuteSideX = -58;
     for (let i = 0; i < 60; i++) {
@@ -59,7 +58,10 @@ registerSketch('sk4', function (p) {
     p.ellipse(minuteSideX + 14, minuteHandY, 14, 14);
 
     let hour12 = hour % 12;
-    let hourHandY = p.map(hour12, 0, 11, marksTopY, marksBottomY);
+    if (hour12 === 0) {
+      hour12 = 12;
+    }
+    let hourHandY = p.map(hour12, 1, 12, marksTopY, marksBottomY);
     p.ellipse(hourSideX + 14, hourHandY, 16, 16);
 
     p.fill(225);
@@ -71,7 +73,7 @@ registerSketch('sk4', function (p) {
     p.fill(90);
     p.textSize(14);
     p.textAlign(p.LEFT, p.CENTER);
-    p.text("Time: " + hour + ":" + minuteText + ":" + secondText, 70, -60);
+    p.text("Time: " + hour12 + ":" + minuteText, 70, -60);
   };
   
 });

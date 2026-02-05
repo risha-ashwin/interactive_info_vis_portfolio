@@ -9,14 +9,19 @@ registerSketch('sk4', function (p) {
   p.draw = function () {
     p.background(248);
     let hour = p.hour();
-    let hourProgress = hour / 24;
+    let minute = p.minute();
     p.translate(p.width / 2, p.height / 2 + 80);
 
     let candleHeight = 300;
-    let burnedHeight = candleHeight * hourProgress;
+    let burnedHeight = candleHeight * (hour / 24);
 
     p.fill(240);
     p.rect(-40, -200 + burnedHeight, 80, candleHeight - burnedHeight, 12);
+
+    p.fill(200);
+    for (let i = 0; i < minute / 5; i++) {
+      p.rect(-48, -180 + i * 22, 10, 18, 4)
+    }
 
     p.fill(220);
     p.ellipse(0, 110, 140, 30);

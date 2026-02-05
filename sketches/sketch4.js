@@ -10,6 +10,13 @@ registerSketch('sk4', function (p) {
     p.background(248);
     let hour = p.hour();
     let minute = p.minute();
+    let isPM = hour >= 12;
+    if (isPM >= 12) {
+      let waxColor =p.color(180, 200, 255);
+    }
+    else {
+      let waxColor = p.color(255, 220, 180);
+    }
     p.translate(p.width / 2, p.height / 2 + 80);
 
     let candleHeight = 300;
@@ -18,7 +25,7 @@ registerSketch('sk4', function (p) {
     p.fill(240);
     p.rect(-40, -200 + burnedHeight, 80, candleHeight - burnedHeight, 12);
 
-    p.fill(200);
+    p.fill(waxColor);
     for (let i = 0; i < minute / 5; i++) {
       p.rect(-48, -180 + i * 22, 10, 18, 4)
     }

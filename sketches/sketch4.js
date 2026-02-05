@@ -7,10 +7,15 @@ registerSketch('sk4', function (p) {
   };
   p.draw = function () {
     p.background(248);
+
     let hour = p.hour();
     let minute = p.minute();
     let isPM = hour >= 12;
+    let minuteText = minute < 10 ? "0" + minute : "" + minute;
+    let secondText = second < 10 ? "0" + second : "" + second;
+
     p.translate(p.width / 2, p.height / 2 + 50);
+
 
     let candleHeight = 220;
     let candleTopY = -160;
@@ -62,6 +67,11 @@ registerSketch('sk4', function (p) {
 
     p.fill(255, 180, 80);
     p.ellipse(0, candleTopY + burnedHeight - 20, 30, 50);
+
+    p.fill(90);
+    p.textSize(14);
+    p.textAlign(p.LEFT, p.CENTER);
+    p.text("Time: " + hour + ":" + minuteText + ":" + secondText, 70, -60);
   };
   
 });

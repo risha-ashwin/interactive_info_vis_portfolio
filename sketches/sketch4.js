@@ -3,7 +3,8 @@
 registerSketch('sk4', function (p) {
   p.setup = function () {
     p.createCanvas(400, 400);
-    p.noLoop();
+    p.noStroke();
+    p.textAlign(p.CENTER, p.CENTER);
   };
   p.draw = function () {
     p.background(248);
@@ -15,7 +16,6 @@ registerSketch('sk4', function (p) {
     let burnedHeight = candleHeight * hourProgress;
 
     p.fill(240);
-    p.noStroke();
     p.rect(-40, -200 + burnedHeight, 80, candleHeight - burnedHeight, 12);
 
     p.fill(220);

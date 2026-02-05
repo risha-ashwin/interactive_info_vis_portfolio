@@ -11,11 +11,9 @@ registerSketch('sk4', function (p) {
     let hour = p.hour();
     let minute = p.minute();
     let isPM = hour >= 12;
+    let waxColor = p.color(255, 220, 180);
     if (isPM >= 12) {
-      let waxColor =p.color(180, 200, 255);
-    }
-    else {
-      let waxColor = p.color(255, 220, 180);
+      waxColor = p.color(180, 200, 255);
     }
     p.translate(p.width / 2, p.height / 2 + 80);
 

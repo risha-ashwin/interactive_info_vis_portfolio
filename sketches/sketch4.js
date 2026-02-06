@@ -2,7 +2,7 @@
 // HWK 4, Sketch C - Candle Clock
 registerSketch('sk4', function (p) {
   p.setup = function () {
-    p.createCanvas(500, 650);
+    p.createCanvas(500, 500);
     p.textAlign(p.CENTER, p.CENTER);
   };
 

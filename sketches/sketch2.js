@@ -13,7 +13,6 @@ registerSketch('sk2', function (p) {
     p.translate(x, y);
 
     let s = size;
-
     p.stroke(40);
     p.strokeWeight(3);
     p.noFill();
@@ -26,7 +25,6 @@ registerSketch('sk2', function (p) {
     p.noFill();
     p.stroke(40);
 
-    p.strokeWeight(3);
     p.line(0, -s * 0.2, 0, s * 0.25);
 
     let armA = -60, armB = 60, legA = -30, legB = 30;
@@ -58,6 +56,24 @@ registerSketch('sk2', function (p) {
     p.pop();
   }
 
+  function drawBigDancerBase(size) {
+    let s = size;
+
+    p.noStroke();
+    p.fill(50);
+    p.circle(0, -s * 0.55, s * 0.22);
+
+    p.stroke(80);
+    p.strokeWeight(8);
+    p.strokeCap(p.ROUND);
+    p.noFill();
+    p.line(0, -s * 0.45, 0, s * 0.25);
+
+    p.strokeWeight(6);
+    p.line(-s * 0.18, -s * 0.30, s * 0.18, -s * 0.30);
+    p.line(-s * 0.16, s * 0.20, s * 0.16, s * 0.20);
+  }
+
   p.draw = function () {
     p.background(248);
 
@@ -80,19 +96,18 @@ registerSketch('sk2', function (p) {
 
     let r = 260;
     for (let i = 1; i <= 12; i++) {
-      let angle = -90 + (i - 1) * 30; 
+      let angle = -90 + (i - 1) * 30;
       let x = p.cos(angle) * r;
       let y = p.sin(angle) * r;
       drawMiniDancer(i, x, y, 48);
     }
 
-    p.noStroke();
-    p.fill(60);
-    p.circle(0, 0, 10);
+    drawBigDancerBase(260);
 
+    p.noStroke();
     p.fill(40);
     p.textSize(32);
-    p.text("Time: " + hour12 + ":" + minuteText, 0, 0);
+    p.text("Time: " + hour12 + ":" + minuteText, 0, -210);
   };
 
   p.windowResized = function () { };

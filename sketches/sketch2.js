@@ -1,14 +1,20 @@
 // Instance-mode sketch for tab 2
+// HWK 4, Sketch A - Dancer Poses Clock
+
 registerSketch('sk2', function (p) {
+  registerSketch('sk2', function (p) {
   p.setup = function () {
-    p.createCanvas(p.windowWidth, p.windowHeight);
-  };
-  p.draw = function () {
-    p.background(220);
-    p.fill(100, 150, 240);
-    p.textSize(32);
+    p.createCanvas(700, 700);
+    p.angleMode(p.DEGREES);
     p.textAlign(p.CENTER, p.CENTER);
-    p.text('HWK #4. A', p.width / 2, p.height / 2);
   };
-  p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
+
+  p.draw = function () {
+    p.background(248);
+
+    let hour = p.hour();
+    let minute = p.minute();
+
+  };
+});
 });

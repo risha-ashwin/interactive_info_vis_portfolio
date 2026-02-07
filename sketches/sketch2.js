@@ -4,6 +4,9 @@
 // Instance-mode sketch for tab 2
 // HWK 4.A - Dancer Pose Clock
 
+// Instance-mode sketch for tab 2
+// HWK 4.A - Dancer Pose Clock
+
 registerSketch('sk2', function (p) {
   p.setup = function () {
     p.createCanvas(700, 700);
@@ -27,7 +30,6 @@ registerSketch('sk2', function (p) {
 
     p.noFill();
     p.stroke(40);
-
     p.line(0, -s * 0.2, 0, s * 0.25);
 
     let armA = -60, armB = 60, legA = -30, legB = 30;
@@ -59,11 +61,12 @@ registerSketch('sk2', function (p) {
     p.pop();
   }
 
-  function drawBigDancer(size, hourAngle) {
+  function drawBigDancer(size, hourAngle, minuteAngle) {
     let s = size;
 
-    let baseStroke = p.color(160);
-    let boldStroke = p.color(80);
+    let baseStroke = p.color(170);
+    let hourStroke = p.color(120, 170, 255);   
+    let minuteStroke = p.color(255, 160, 190); 
 
     p.noStroke();
     p.fill(60);
@@ -75,44 +78,42 @@ registerSketch('sk2', function (p) {
     p.noFill();
     p.line(0, -s * 0.45, 0, s * 0.25);
 
-    let useArmsForHour = (hourAngle <= 90 || hourAngle >= 270);
-
     let shoulderY = -s * 0.30;
     let hipY = s * 0.20;
 
-    let armLen = s * 0.40;
-    let legLen = s * 0.50;
+    let armLen = s * 0.42;
+    let legLen = s * 0.52;
 
-    let supportArmAngle = 210;
+    let hourUseArms = (hourAngle <= 90 || hourAngle >= 270);
+    let minuteUseArms = (minuteAngle <= 90 || minuteAngle >= 270);
 
     p.stroke(baseStroke);
     p.strokeWeight(6);
-    p.line(0, shoulderY, p.cos(supportArmAngle) * armLen, shoulderY + p.sin(supportArmAngle) * armLen);
+    p.line(0, shoulderY, p.cos(210) * armLen, shoulderY + p.sin(210) * armLen);
+    p.line(0, shoulderY, p.cos(330) * armLen, shoulderY + p.sin(330) * armLen);
 
-    if (useArmsForHour) {
-      p.stroke(boldStroke);
-      p.strokeWeight(12);
+    p.strokeWeight(7);
+    p.line(0, hipY, p.cos(135) * legLen, hipY + p.sin(135) * legLen);
+    p.line(0, hipY, p.cos(45) * legLen, hipY + p.sin(45) * legLen);
+
+    if (hourUseArms) {
+      p.stroke(hourStroke);
+      p.strokeWeight(14);
       p.line(0, shoulderY, p.cos(hourAngle) * armLen, shoulderY + p.sin(hourAngle) * armLen);
     } else {
-      p.stroke(baseStroke);
-      p.strokeWeight(6);
-      p.line(0, shoulderY, p.cos(330) * armLen, shoulderY + p.sin(330) * armLen);
+      p.stroke(hourStroke);
+      p.strokeWeight(14);
+      p.line(0, hipY, p.cos(hourAngle) * legLen, hipY + p.sin(hourAngle) * legLen);
     }
 
-    let supportLegAngle = 135;
-
-    p.stroke(baseStroke);
-    p.strokeWeight(7);
-    p.line(0, hipY, p.cos(supportLegAngle) * legLen, hipY + p.sin(supportLegAngle) * legLen);
-
-    if (!useArmsForHour) {
-      p.stroke(boldStroke);
-      p.strokeWeight(13);
-      p.line(0, hipY, p.cos(hourAngle) * legLen, hipY + p.sin(hourAngle) * legLen);
+    if (minuteUseArms) {
+      p.stroke(minuteStroke);
+      p.strokeWeight(12);
+      p.line(0, shoulderY, p.cos(minuteAngle) * (armLen * 0.9), shoulderY + p.sin(minuteAngle) * (armLen * 0.9));
     } else {
-      p.stroke(baseStroke);
-      p.strokeWeight(7);
-      p.line(0, hipY, p.cos(45) * legLen, hipY + p.sin(45) * legLen);
+      p.stroke(minuteStroke);
+      p.strokeWeight(12);
+      p.line(0, hipY, p.cos(minuteAngle) * (legLen * 0.9), hipY + p.sin(minuteAngle) * (legLen * 0.9));
     }
   }
 
@@ -130,6 +131,7 @@ registerSketch('sk2', function (p) {
     let minuteText = minute < 10 ? "0" + minute : "" + minute;
 
     let hourAngle = -90 + (hour12 - 1) * 30;
+    let minuteAngle = -90 + (minute / 60) * 360;
 
     p.translate(p.width / 2, p.height / 2);
 
@@ -146,7 +148,7 @@ registerSketch('sk2', function (p) {
       drawMiniDancer(i, x, y, 48);
     }
 
-    drawBigDancer(260, hourAngle);
+    drawBigDancer(260, hourAngle, minuteAngle);
 
     p.noStroke();
     p.fill(40);

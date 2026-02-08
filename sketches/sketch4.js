@@ -20,30 +20,32 @@ registerSketch('sk4', function (p) {
     let minuteText = minute < 10 ? "0" + minute : "" + minute;
 
     p.fill(90);
-    p.textSize(30);
-    p.text("Time: " + hour12 + ":" + minuteText, p.width / 2, 42);
+    p.textSize(34);
+    p.text("Time: " + hour12 + ":" + minuteText, p.width / 2, 46);
 
     p.textSize(16);
-    p.text(isPM ? "PM" : "AM", p.width / 2, 74);
+    p.text(isPM ? "PM" : "AM", p.width / 2, 80);
 
-    let topMargin = 110;
+    let topMargin = 120;     
+    let baseOffsetY = 35;    
+    let baseH = 40;          
 
-    let baseExtra = p.height * 0.07;        
-    let baseH = p.height * 0.05;            
-    let baseOffsetY = p.height * 0.04;      
+    let maxFitHeight = p.height - topMargin - baseOffsetY - baseH - 20;
+    let candleHeight = p.min(500, maxFitHeight);
 
-    let candleHeight = p.height - topMargin - baseExtra - baseOffsetY - baseH;
-    candleHeight = p.max(candleHeight, p.height * 0.65); 
-
-    let candleWidth = p.min(p.width * 0.20, 150); 
-    let candleTopY = 0;
+    let candleWidth = 140;
 
     p.push();
     p.translate(p.width / 2, topMargin);
 
+    let candleTopY = 0;
+
     let burnedHeight = candleHeight * (hour / 24);
 
     p.noStroke();
+    p.fill(235);
+    p.rect(-candleWidth / 2, candleTopY, candleWidth, candleHeight, 28);
+
     p.fill(240);
     p.rect(
       -candleWidth / 2,
@@ -53,7 +55,7 @@ registerSketch('sk4', function (p) {
       28
     );
 
-    let marksTopY = candleTopY + burnedHeight + 12;
+    let marksTopY = candleTopY + 12;
     let marksBottomY = candleTopY + candleHeight - 12;
 
     let minuteSideX = -candleWidth / 2 + 12;
@@ -89,7 +91,7 @@ registerSketch('sk4', function (p) {
     p.ellipse(0, candleTopY + burnedHeight - 36, 52, 80);
 
     p.fill(225);
-    p.ellipse(0, candleTopY + candleHeight + baseOffsetY, candleWidth * 2.1, baseH);
+    p.ellipse(0, candleTopY + candleHeight + baseOffsetY, candleWidth * 2.4, baseH);
 
     p.pop();
   };

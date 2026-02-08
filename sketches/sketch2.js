@@ -91,7 +91,7 @@ registerSketch('sk2', function (p) {
     p.noFill();
     p.line(0, -s * 0.45, 0, s * 0.25);
 
-    function limb(anchorX, anchorY, angle, len, col, w) {
+    function limb(anchorX, anchorY, angle, len, col, w, drawDot) {
       let x2 = anchorX + p.cos(angle) * len;
       let y2 = anchorY + p.sin(angle) * len;
 
@@ -99,24 +99,36 @@ registerSketch('sk2', function (p) {
       p.strokeWeight(w);
       p.line(anchorX, anchorY, x2, y2);
 
-      p.noStroke();
-      p.fill(col);
-      p.circle(x2, y2, w * 1.15);
+      if (drawDot) {
+        p.noStroke();
+        p.fill(col);
+        p.circle(x2, y2, w * 1.15);
+      }
     }
 
-    let hourOffsetX = -10;
-    let minuteOffsetX = 10;
+    let idleArmLeft = 240;
+    let idleArmRight = 300;
+    let idleLegLeft = 120;
+    let idleLegRight = 60;
+
+    limb(0, shoulderY, idleArmLeft, armLen * 0.55, baseStroke, 10, false);
+    limb(0, shoulderY, idleArmRight, armLen * 0.55, baseStroke, 10, false);
+    limb(0, hipY, idleLegLeft, legLen * 0.55, baseStroke, 10, false);
+    limb(0, hipY, idleLegRight, legLen * 0.55, baseStroke, 10, false);
+
+    let hourOffsetX = -12;
+    let minuteOffsetX = 12;
 
     if (hourUsesArms) {
-      limb(hourOffsetX, shoulderY, hourAngle, armLen, armStroke, 14);
+      limb(hourOffsetX, shoulderY, hourAngle, armLen, armStroke, 16, true);
     } else {
-      limb(hourOffsetX, hipY, hourAngle, legLen, legStroke, 14);
+      limb(hourOffsetX, hipY, hourAngle, legLen, legStroke, 16, true);
     }
 
     if (minuteUsesArms) {
-      limb(minuteOffsetX, shoulderY, minuteAngle, armLen * 0.92, armStroke, 12);
+      limb(minuteOffsetX, shoulderY, minuteAngle, armLen * 0.92, armStroke, 12, true);
     } else {
-      limb(minuteOffsetX, hipY, minuteAngle, legLen * 0.92, legStroke, 12);
+      limb(minuteOffsetX, hipY, minuteAngle, legLen * 0.92, legStroke, 12, true);
     }
 
     p.stroke(baseStroke);
@@ -151,7 +163,7 @@ registerSketch('sk2', function (p) {
 
     let r = 260;
     for (let num = 1; num <= 12; num++) {
-      let angle = -90 + (num % 12) * 30; 
+      let angle = -90 + (num % 12) * 30;
       let x = p.cos(angle) * r;
       let y = p.sin(angle) * r;
       let isActive = (num === hourDisplay);
@@ -166,12 +178,12 @@ registerSketch('sk2', function (p) {
     p.noStroke();
     p.fill(40);
     p.textAlign(p.CENTER, p.CENTER);
-    p.textSize(32);
-    p.text("Time: " + hourDisplay + ":" + minuteText, p.width / 2, 50);
+    p.textSize(44);
+    p.text("Time: " + hourDisplay + ":" + minuteText, p.width / 2, 20);
 
     p.fill(120);
-    p.textSize(14);
-    p.text("Top half uses ARMS (pink), Bottom half uses LEGS (blue)", p.width / 2, 80);
+    p.textSize(16);
+    p.text("Top half uses ARMS (pink), Bottom half uses LEGS (blue)", p.width / 2, 50);
 
     p.pop();
   };

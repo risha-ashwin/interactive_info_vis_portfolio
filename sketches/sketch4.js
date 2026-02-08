@@ -2,8 +2,9 @@
 // HWK 4, Sketch C - Candle Clock
 registerSketch('sk4', function (p) {
   p.setup = function () {
-    p.createCanvas(500, 500);
+    p.createCanvas(700, 700);
     p.textAlign(p.CENTER, p.CENTER);
+    p.angleMode(p.DEGREES);
   };
 
   p.draw = function () {
@@ -19,17 +20,26 @@ registerSketch('sk4', function (p) {
     let minuteText = minute < 10 ? "0" + minute : "" + minute;
 
     p.fill(90);
-    p.textSize(26);
-    p.text("Time: " + hour12 + ":" + minuteText, p.width / 2, 36);
+    p.textSize(30);
+    p.text("Time: " + hour12 + ":" + minuteText, p.width / 2, 42);
 
-    p.textSize(14);
-    p.text(isPM ? "PM" : "AM", p.width / 2, 64);
+    p.textSize(16);
+    p.text(isPM ? "PM" : "AM", p.width / 2, 74);
 
-    p.translate(p.width / 2, 90);
+    let topMargin = 110;
 
-    let candleHeight = 460;   
-    let candleWidth = 110;    
+    let baseExtra = p.height * 0.07;        
+    let baseH = p.height * 0.05;            
+    let baseOffsetY = p.height * 0.04;      
+
+    let candleHeight = p.height - topMargin - baseExtra - baseOffsetY - baseH;
+    candleHeight = p.max(candleHeight, p.height * 0.65); 
+
+    let candleWidth = p.min(p.width * 0.20, 150); 
     let candleTopY = 0;
+
+    p.push();
+    p.translate(p.width / 2, topMargin);
 
     let burnedHeight = candleHeight * (hour / 24);
 
@@ -40,47 +50,47 @@ registerSketch('sk4', function (p) {
       candleTopY + burnedHeight,
       candleWidth,
       candleHeight - burnedHeight,
-      24
+      28
     );
 
     let marksTopY = candleTopY + burnedHeight + 12;
     let marksBottomY = candleTopY + candleHeight - 12;
 
-    let minuteSideX = -candleWidth / 2 + 10;
+    let minuteSideX = -candleWidth / 2 + 12;
     for (let i = 0; i < 60; i++) {
       let y = p.map(i, 0, 59, marksTopY, marksBottomY);
       let isBold = i % 10 === 0;
 
       p.stroke(150);
       p.strokeWeight(isBold ? 3 : 2);
-      p.line(minuteSideX, y, minuteSideX + (isBold ? 18 : 10), y);
+      p.line(minuteSideX, y, minuteSideX + (isBold ? 20 : 12), y);
     }
 
-    let hourSideX = candleWidth / 2 - 28;
+    let hourSideX = candleWidth / 2 - 32;
     for (let i = 1; i <= 12; i++) {
       let y = p.map(i, 1, 12, marksTopY, marksBottomY);
       p.stroke(150);
       p.strokeWeight(4);
-      p.line(hourSideX, y, hourSideX + 18, y);
+      p.line(hourSideX, y, hourSideX + 20, y);
     }
 
-    let waxColor = isPM
-      ? p.color(180, 200, 255)
-      : p.color(255, 220, 160);
+    let waxColor = isPM ? p.color(180, 200, 255) : p.color(255, 220, 160);
 
     p.noStroke();
     p.fill(waxColor);
 
     let minuteHandY = p.map(minute, 0, 59, marksTopY, marksBottomY);
-    p.ellipse(minuteSideX + 14, minuteHandY, 14, 14);
+    p.ellipse(minuteSideX + 16, minuteHandY, 14, 14);
 
     let hourHandY = p.map(hour12, 1, 12, marksTopY, marksBottomY);
-    p.ellipse(hourSideX + 14, hourHandY, 16, 16);
+    p.ellipse(hourSideX + 16, hourHandY, 16, 16);
 
     p.fill(255, 180, 80);
-    p.ellipse(0, candleTopY + burnedHeight - 34, 46, 72);
+    p.ellipse(0, candleTopY + burnedHeight - 36, 52, 80);
 
     p.fill(225);
-    p.ellipse(0, candleTopY + candleHeight + 28, 220, 36);
+    p.ellipse(0, candleTopY + candleHeight + baseOffsetY, candleWidth * 2.1, baseH);
+
+    p.pop();
   };
 });

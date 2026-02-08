@@ -69,51 +69,61 @@ registerSketch('sk2', function (p) {
     let s = size;
 
     let baseStroke = p.color(175);
-    let hourStroke = p.color(150, 190, 255);
-    let minuteStroke = p.color(255, 170, 205);
+    let hourStroke = p.color(150, 190, 255);     
+    let minuteStroke = p.color(255, 170, 205);  
+
+    let shoulderY = -s * 0.30;
+    let hipY = s * 0.20;
+
+    let armLen = s * 0.48;
+    let legLen = s * 0.58;
+
+    let hourUsesArms = (p.sin(hourAngle) < 0);
+    let minuteUsesArms = (p.sin(minuteAngle) < 0);
 
     p.noStroke();
     p.fill(60);
     p.circle(0, -s * 0.55, s * 0.22);
 
     p.stroke(baseStroke);
-    p.strokeWeight(8);
+    p.strokeWeight(10);
     p.strokeCap(p.ROUND);
     p.noFill();
     p.line(0, -s * 0.45, 0, s * 0.25);
 
-    let shoulderY = -s * 0.30;
-    let hipY = s * 0.20;
-
-    let armLen = s * 0.42;
-    let legLen = s * 0.52;
-
-    let hourUseArms = (hourAngle <= 90 || hourAngle >= 270);
-    let minuteUseArms = (minuteAngle <= 90 || minuteAngle >= 270);
+    p.stroke(baseStroke);
+    p.strokeWeight(8);
+    p.point(0, shoulderY);
+    p.point(0, hipY);
 
     p.stroke(baseStroke);
     p.strokeWeight(6);
-    p.line(0, shoulderY, p.cos(210) * armLen, shoulderY + p.sin(210) * armLen);
-    p.line(0, shoulderY, p.cos(330) * armLen, shoulderY + p.sin(330) * armLen);
+    p.line(0, shoulderY, p.cos(240) * (armLen * 0.55), shoulderY + p.sin(240) * (armLen * 0.55));
+    p.line(0, hipY, p.cos(60) * (legLen * 0.55), hipY + p.sin(60) * (legLen * 0.55));
 
-    p.strokeWeight(7);
-    p.line(0, hipY, p.cos(135) * legLen, hipY + p.sin(135) * legLen);
-    p.line(0, hipY, p.cos(45) * legLen, hipY + p.sin(45) * legLen);
+    function limb(anchorY, angle, len, col, w) {
+      let x2 = p.cos(angle) * len;
+      let y2 = anchorY + p.sin(angle) * len;
 
-    p.stroke(hourStroke);
-    p.strokeWeight(14);
-    if (hourUseArms) {
-      p.line(0, shoulderY, p.cos(hourAngle) * armLen, shoulderY + p.sin(hourAngle) * armLen);
-    } else {
-      p.line(0, hipY, p.cos(hourAngle) * legLen, hipY + p.sin(hourAngle) * legLen);
+      p.stroke(col);
+      p.strokeWeight(w);
+      p.line(0, anchorY, x2, y2);
+
+      p.noStroke();
+      p.fill(col);
+      p.circle(x2, y2, w * 1.15);
     }
 
-    p.stroke(minuteStroke);
-    p.strokeWeight(12);
-    if (minuteUseArms) {
-      p.line(0, shoulderY, p.cos(minuteAngle) * (armLen * 0.9), shoulderY + p.sin(minuteAngle) * (armLen * 0.9));
+    if (hourUsesArms) {
+      limb(shoulderY, hourAngle, armLen, hourStroke, 14);
     } else {
-      p.line(0, hipY, p.cos(minuteAngle) * (legLen * 0.9), hipY + p.sin(minuteAngle) * (legLen * 0.9));
+      limb(hipY, hourAngle, legLen, hourStroke, 14);
+    }
+
+    if (minuteUsesArms) {
+      limb(shoulderY, minuteAngle, armLen * 0.92, minuteStroke, 12);
+    } else {
+      limb(hipY, minuteAngle, legLen * 0.92, minuteStroke, 12);
     }
   }
 
@@ -130,7 +140,7 @@ registerSketch('sk2', function (p) {
 
     let minuteText = minute < 10 ? "0" + minute : "" + minute;
 
-    let hourAngle = -90 + (hour12 - 1) * 30;
+    let hourAngle = -90 + (hour12 - 1) * 30 + (minute / 60) * 30;
     let minuteAngle = -90 + (minute / 60) * 360;
 
     p.translate(p.width / 2, p.height / 2);

@@ -26,14 +26,21 @@ registerSketch('sk4', function (p) {
     p.textSize(16);
     p.text(isPM ? "PM" : "AM", p.width / 2, 80);
 
-    let topMargin = 120;     
-    let baseOffsetY = 35;    
-    let baseH = 40;          
 
-    let maxFitHeight = p.height - topMargin - baseOffsetY - baseH - 20;
-    let candleHeight = p.min(500, maxFitHeight);
+    let topMargin = 150;
+
+    let flameGap = 10;       
+    let flameH = 80;         
+    let wickH = 24;          
+
+    let baseOffsetY = 38;
+    let baseH = 42;
 
     let candleWidth = 140;
+
+    let maxFitHeight = p.height - topMargin - (flameH + wickH + flameGap) - (baseOffsetY + baseH) - 18;                 
+
+    let candleHeight = p.min(500, maxFitHeight);
 
     p.push();
     p.translate(p.width / 2, topMargin);
@@ -41,6 +48,19 @@ registerSketch('sk4', function (p) {
     let candleTopY = 0;
 
     let burnedHeight = candleHeight * (hour / 24);
+
+    let wickTopY = candleTopY - wickH;
+    let wickBottomY = candleTopY - 6; 
+    let flameCenterY = wickTopY - flameH / 2 - flameGap;
+
+    p.noStroke();
+    p.fill(255, 180, 80);
+    p.ellipse(0, flameCenterY, 52, flameH);
+
+    p.stroke(120);
+    p.strokeWeight(6);
+    p.strokeCap(p.ROUND);
+    p.line(0, wickTopY + 8, 0, wickBottomY);
 
     p.noStroke();
     p.fill(235);
@@ -87,11 +107,13 @@ registerSketch('sk4', function (p) {
     let hourHandY = p.map(hour12, 1, 12, marksTopY, marksBottomY);
     p.ellipse(hourSideX + 16, hourHandY, 16, 16);
 
-    p.fill(255, 180, 80);
-    p.ellipse(0, candleTopY + burnedHeight - 36, 52, 80);
-
     p.fill(225);
-    p.ellipse(0, candleTopY + candleHeight + baseOffsetY, candleWidth * 2.4, baseH);
+    p.ellipse(
+      0,
+      candleTopY + candleHeight + baseOffsetY,
+      candleWidth * 2.4,
+      baseH
+    );
 
     p.pop();
   };

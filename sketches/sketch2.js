@@ -69,8 +69,8 @@ registerSketch('sk2', function (p) {
     let s = size;
 
     let baseStroke = p.color(175);
-    let hourStroke = p.color(150, 190, 255);     
-    let minuteStroke = p.color(255, 170, 205);  
+    let hourStroke = p.color(150, 190, 255);
+    let minuteStroke = p.color(255, 170, 205);
 
     let shoulderY = -s * 0.30;
     let hipY = s * 0.20;
@@ -123,7 +123,7 @@ registerSketch('sk2', function (p) {
     if (minuteUsesArms) {
       limb(shoulderY, minuteAngle, armLen * 0.92, minuteStroke, 12);
     } else {
-      limb(hipY, minuteAngle, legLen * 0.92, minuteStroke, 12);
+      limb(hipY, minuteAngle, legLen * 0.92, legLen * 0.92, minuteStroke, 12);
     }
   }
 
@@ -134,13 +134,14 @@ registerSketch('sk2', function (p) {
     let minute = p.minute();
 
     let hour12 = hour % 12;
-    if (hour12 === 0) {
-      hour12 = 12;
+    let hourDisplay = hour12;
+    if (hourDisplay === 0) {
+      hourDisplay = 12;
     }
 
     let minuteText = minute < 10 ? "0" + minute : "" + minute;
 
-    let hourAngle = -90 + (hour12 - 1) * 30 + (minute / 60) * 30;
+    let hourAngle = -90 + (hourDisplay % 12) * 30 + (minute / 60) * 30;
     let minuteAngle = -90 + (minute / 60) * 360;
 
     p.translate(p.width / 2, p.height / 2);
@@ -151,12 +152,12 @@ registerSketch('sk2', function (p) {
     p.circle(0, 0, 560);
 
     let r = 260;
-    for (let i = 1; i <= 12; i++) {
-      let angle = -90 + (i - 1) * 30;
+    for (let num = 1; num <= 12; num++) {
+      let angle = -90 + (num % 12) * 30;   
       let x = p.cos(angle) * r;
       let y = p.sin(angle) * r;
-      let isActive = (i === hour12);
-      drawMiniDancer(i, x, y, 48, isActive);
+      let isActive = (num === hourDisplay);
+      drawMiniDancer(num, x, y, 48, isActive);
     }
 
     drawBigDancer(260, hourAngle, minuteAngle);
@@ -164,11 +165,11 @@ registerSketch('sk2', function (p) {
     p.noStroke();
     p.fill(40);
     p.textSize(32);
-    p.text("Time: " + hour12 + ":" + minuteText, 0, -210);
+    p.text("Time: " + hourDisplay + ":" + minuteText, 0, -245);
 
     p.fill(120);
     p.textSize(14);
-    p.text("Top half uses ARMS,  Bottom half uses LEGS", 0, 260);
+    p.text("Top half uses ARMS,  Bottom half uses LEGS", 0, -215);
   };
 
   p.windowResized = function () { };

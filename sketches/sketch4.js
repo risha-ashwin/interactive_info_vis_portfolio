@@ -21,10 +21,10 @@ registerSketch('sk4', function (p) {
 
     p.fill(90);
     p.textSize(34);
-    p.text("Time: " + hour12 + ":" + minuteText, p.width / 2, 46);
+    p.text("Time: " + hour12 + ":" + minuteText, p.width / 2, 600);
 
     p.textSize(16);
-    p.text(isPM ? "PM" : "AM", p.width / 2, 80);
+    p.text(isPM ? "PM" : "AM", p.width / 2, 625);
 
 
     let topMargin = 150;

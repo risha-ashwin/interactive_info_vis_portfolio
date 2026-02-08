@@ -68,9 +68,9 @@ registerSketch('sk2', function (p) {
   function drawBigDancer(size, hourAngle, minuteAngle) {
     let s = size;
 
-    let baseStroke = p.color(165);
-    let armStroke = p.color(255, 170, 205);   
-    let legStroke = p.color(150, 190, 255);   
+    let idleStroke = p.color(165);          
+    let armStroke = p.color(255, 170, 205); 
+    let legStroke = p.color(150, 190, 255); 
 
     let shoulderY = -s * 0.30;
     let hipY = s * 0.20;
@@ -85,7 +85,7 @@ registerSketch('sk2', function (p) {
     p.fill(60);
     p.circle(0, -s * 0.55, s * 0.22);
 
-    p.stroke(baseStroke);
+    p.stroke(idleStroke);
     p.strokeWeight(10);
     p.strokeCap(p.ROUND);
     p.noFill();
@@ -106,32 +106,44 @@ registerSketch('sk2', function (p) {
       }
     }
 
-    let idleArmLeft = 240;
-    let idleArmRight = 300;
-    let idleLegLeft = 120;
-    let idleLegRight = 60;
+    let leftX = -12;   
+    let rightX = 12;   
 
-    limb(0, shoulderY, idleArmLeft, armLen * 0.55, baseStroke, 10, false);
-    limb(0, shoulderY, idleArmRight, armLen * 0.55, baseStroke, 10, false);
-    limb(0, hipY, idleLegLeft, legLen * 0.55, baseStroke, 10, false);
-    limb(0, hipY, idleLegRight, legLen * 0.55, baseStroke, 10, false);
+    let idleArmLeftAngle = 240;
+    let idleArmRightAngle = 300;
+    let idleLegLeftAngle = 120;
+    let idleLegRightAngle = 60;
 
-    let hourOffsetX = -12;
-    let minuteOffsetX = 12;
+    let leftArmActive = hourUsesArms;
+    let rightArmActive = minuteUsesArms;
+    let leftLegActive = !hourUsesArms;
+    let rightLegActive = !minuteUsesArms;
 
-    if (hourUsesArms) {
-      limb(hourOffsetX, shoulderY, hourAngle, armLen, armStroke, 16, true);
+    if (leftArmActive) {
+      limb(leftX, shoulderY, hourAngle, armLen, armStroke, 16, true);
     } else {
-      limb(hourOffsetX, hipY, hourAngle, legLen, legStroke, 16, true);
+      limb(leftX, shoulderY, idleArmLeftAngle, armLen * 0.55, idleStroke, 10, false);
     }
 
-    if (minuteUsesArms) {
-      limb(minuteOffsetX, shoulderY, minuteAngle, armLen * 0.92, armStroke, 12, true);
+    if (rightArmActive) {
+      limb(rightX, shoulderY, minuteAngle, armLen * 0.92, armStroke, 12, true);
     } else {
-      limb(minuteOffsetX, hipY, minuteAngle, legLen * 0.92, legStroke, 12, true);
+      limb(rightX, shoulderY, idleArmRightAngle, armLen * 0.55, idleStroke, 10, false);
     }
 
-    p.stroke(baseStroke);
+    if (leftLegActive) {
+      limb(leftX, hipY, hourAngle, legLen, legStroke, 16, true);
+    } else {
+      limb(leftX, hipY, idleLegLeftAngle, legLen * 0.55, idleStroke, 10, false);
+    }
+
+    if (rightLegActive) {
+      limb(rightX, hipY, minuteAngle, legLen * 0.92, legStroke, 12, true);
+    } else {
+      limb(rightX, hipY, idleLegRightAngle, legLen * 0.55, idleStroke, 10, false);
+    }
+
+    p.stroke(idleStroke);
     p.strokeWeight(10);
     p.point(0, shoulderY);
     p.point(0, hipY);

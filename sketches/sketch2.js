@@ -190,7 +190,7 @@ registerSketch('sk2', function (p) {
     p.noStroke();
     p.fill(40);
     p.textAlign(p.CENTER, p.CENTER);
-    p.textSize(44);
+    p.textSize(30);
     p.text("Time: " + hourDisplay + ":" + minuteText, p.width / 2, 20);
 
     p.fill(120);

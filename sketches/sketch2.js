@@ -68,15 +68,15 @@ registerSketch('sk2', function (p) {
   function drawBigDancer(size, hourAngle, minuteAngle) {
     let s = size;
 
-    let baseStroke = p.color(175);
-    let hourStroke = p.color(150, 190, 255);
-    let minuteStroke = p.color(255, 170, 205);
+    let baseStroke = p.color(165);
+    let armStroke = p.color(255, 170, 205);   
+    let legStroke = p.color(150, 190, 255);   
 
     let shoulderY = -s * 0.30;
     let hipY = s * 0.20;
 
-    let armLen = s * 0.48;
-    let legLen = s * 0.58;
+    let armLen = s * 0.50;
+    let legLen = s * 0.60;
 
     let hourUsesArms = (p.sin(hourAngle) < 0);
     let minuteUsesArms = (p.sin(minuteAngle) < 0);
@@ -91,40 +91,38 @@ registerSketch('sk2', function (p) {
     p.noFill();
     p.line(0, -s * 0.45, 0, s * 0.25);
 
-    p.stroke(baseStroke);
-    p.strokeWeight(8);
-    p.point(0, shoulderY);
-    p.point(0, hipY);
-
-    p.stroke(baseStroke);
-    p.strokeWeight(6);
-    p.line(0, shoulderY, p.cos(240) * (armLen * 0.55), shoulderY + p.sin(240) * (armLen * 0.55));
-    p.line(0, hipY, p.cos(60) * (legLen * 0.55), hipY + p.sin(60) * (legLen * 0.55));
-
-    function limb(anchorY, angle, len, col, w) {
-      let x2 = p.cos(angle) * len;
+    function limb(anchorX, anchorY, angle, len, col, w) {
+      let x2 = anchorX + p.cos(angle) * len;
       let y2 = anchorY + p.sin(angle) * len;
 
       p.stroke(col);
       p.strokeWeight(w);
-      p.line(0, anchorY, x2, y2);
+      p.line(anchorX, anchorY, x2, y2);
 
       p.noStroke();
       p.fill(col);
       p.circle(x2, y2, w * 1.15);
     }
 
+    let hourOffsetX = -10;
+    let minuteOffsetX = 10;
+
     if (hourUsesArms) {
-      limb(shoulderY, hourAngle, armLen, hourStroke, 14);
+      limb(hourOffsetX, shoulderY, hourAngle, armLen, armStroke, 14);
     } else {
-      limb(hipY, hourAngle, legLen, hourStroke, 14);
+      limb(hourOffsetX, hipY, hourAngle, legLen, legStroke, 14);
     }
 
     if (minuteUsesArms) {
-      limb(shoulderY, minuteAngle, armLen * 0.92, minuteStroke, 12);
+      limb(minuteOffsetX, shoulderY, minuteAngle, armLen * 0.92, armStroke, 12);
     } else {
-      limb(hipY, minuteAngle, legLen * 0.92, legLen * 0.92, minuteStroke, 12);
+      limb(minuteOffsetX, hipY, minuteAngle, legLen * 0.92, legStroke, 12);
     }
+
+    p.stroke(baseStroke);
+    p.strokeWeight(10);
+    p.point(0, shoulderY);
+    p.point(0, hipY);
   }
 
   p.draw = function () {
@@ -153,7 +151,7 @@ registerSketch('sk2', function (p) {
 
     let r = 260;
     for (let num = 1; num <= 12; num++) {
-      let angle = -90 + (num % 12) * 30;   
+      let angle = -90 + (num % 12) * 30; 
       let x = p.cos(angle) * r;
       let y = p.sin(angle) * r;
       let isActive = (num === hourDisplay);
@@ -162,14 +160,20 @@ registerSketch('sk2', function (p) {
 
     drawBigDancer(260, hourAngle, minuteAngle);
 
+    p.push();
+    p.resetMatrix();
+
     p.noStroke();
     p.fill(40);
+    p.textAlign(p.CENTER, p.CENTER);
     p.textSize(32);
-    p.text("Time: " + hourDisplay + ":" + minuteText, 0, -245);
+    p.text("Time: " + hourDisplay + ":" + minuteText, p.width / 2, 50);
 
     p.fill(120);
     p.textSize(14);
-    p.text("Top half uses ARMS,  Bottom half uses LEGS", 0, -215);
+    p.text("Top half uses ARMS (pink), Bottom half uses LEGS (blue)", p.width / 2, 80);
+
+    p.pop();
   };
 
   p.windowResized = function () { };

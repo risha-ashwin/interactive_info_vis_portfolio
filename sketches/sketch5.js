@@ -13,13 +13,15 @@ registerSketch('sk5', function (p) {
   };
 
   p.setup = function () {
-    p.createCanvas(900, 600);
+    let canvas = p.createCanvas(900, 600);
+
+    canvas.style("display", "block");
+    canvas.style("margin", "0 auto");
 
     let artistBucket = {};
 
     for (let i = 0; i < dataTable.getRowCount(); i++) {
       let artistName = dataTable.getString(i, "artist_name");
-
       if (!artistName) continue;
 
       let followers = Number(dataTable.getString(i, "artist_followers"));
@@ -71,7 +73,7 @@ registerSketch('sk5', function (p) {
 
       let explicitRatio = 0;
       if (a.trackCount > 0) {
-        explicitRatio = a.explicitCount / a.trackCount; 
+        explicitRatio = a.explicitCount / a.trackCount;
       }
 
       let logFollowers = Math.log10(a.followers + 1);
@@ -97,27 +99,30 @@ registerSketch('sk5', function (p) {
   p.draw = function () {
     p.background(248);
 
-    let leftMargin = 80;
+    let leftMargin = 90;
     let rightMargin = 40;
-    let topMargin = 60;
-    let bottomMargin = 80;
+    let topMargin = 130;
+    let bottomMargin = 90;
 
     let plotWidth = p.width - leftMargin - rightMargin;
     let plotHeight = p.height - topMargin - bottomMargin;
 
     p.noStroke();
     p.fill(20);
-    p.textSize(18);
-    p.text("Artist Impact Map", leftMargin, 30);
+    p.textAlign(p.LEFT, p.TOP);
+    p.textSize(22);
+    p.text("Artist Impact Map", 20, 16);
 
     p.fill(80);
     p.textSize(12);
-    p.text("Bubbles = Artists • x: Followers (log) • y: Average Track Popularity • Size: #Tracks • Color: Explicit %", leftMargin, 48);
+    p.text(
+      "Bubbles = Artists • x: Followers (log) • y: Average Track Popularity • Size: #Tracks • Color: Explicit %", 20, 46);
+    drawLegend(20, 72);
 
     if (artistPoints.length === 0) {
       p.fill(20);
       p.textSize(14);
-      p.text("No points to draw. Check the CSV filename + column names.", leftMargin, topMargin + 20);
+      p.text("No points to draw. Check the CSV path + column names.", 20, 100);
       return;
     }
 
@@ -140,25 +145,6 @@ registerSketch('sk5', function (p) {
       if (a.trackCount > maxTrackCount) maxTrackCount = a.trackCount;
     }
 
-    p.stroke(0);
-    p.strokeWeight(1);
-
-    p.line(leftMargin, topMargin + plotHeight, leftMargin + plotWidth, topMargin + plotHeight);
-
-    p.line(leftMargin, topMargin, leftMargin, topMargin + plotHeight);
-
-    p.noStroke();
-    p.fill(40);
-    p.textSize(12);
-    p.textAlign(p.CENTER, p.CENTER);
-    p.text("Artist Followers (log scale)", leftMargin + plotWidth / 2, p.height - 35);
-
-    p.push();
-    p.translate(28, topMargin + plotHeight / 2);
-    p.rotate(-Math.PI / 2);
-    p.text("Average Track Popularity (0–100)", 0, 0);
-    p.pop();
-
     p.stroke(230);
     p.strokeWeight(1);
     for (let g = 0; g <= 5; g++) {
@@ -167,6 +153,25 @@ registerSketch('sk5', function (p) {
       p.line(gx, topMargin, gx, topMargin + plotHeight);
       p.line(leftMargin, gy, leftMargin + plotWidth, gy);
     }
+
+    p.stroke(0);
+    p.strokeWeight(1);
+    p.line(leftMargin, topMargin + plotHeight, leftMargin + plotWidth, topMargin + plotHeight);
+    p.line(leftMargin, topMargin, leftMargin, topMargin + plotHeight);
+
+    p.noStroke();
+    p.fill(40);
+    p.textSize(12);
+    p.textAlign(p.CENTER, p.CENTER);
+    p.text("Artist Followers (log scale)", leftMargin + plotWidth / 2, p.height - 40);
+
+    p.push();
+    p.translate(30, topMargin + plotHeight / 2);
+    p.rotate(-Math.PI / 2);
+    p.text("Average Track Popularity (0–100)", 0, 0);
+    p.pop();
+
+    drawAxisNumbers(leftMargin, topMargin, plotWidth, plotHeight, minX, maxX, minY, maxY);
 
     hoveredArtistIndex = -1;
 
@@ -178,13 +183,13 @@ registerSketch('sk5', function (p) {
 
       let radius = p.map(Math.sqrt(a.trackCount), 1, Math.sqrt(maxTrackCount), 6, 30);
 
-      let grayValue = p.map(a.explicitRatio, 0, 1, 220, 40);
+      let bubbleColor = getPinkColor(a.explicitRatio);
 
       let distToMouse = p.dist(p.mouseX, p.mouseY, x, y);
       let isHover = distToMouse <= radius;
 
       p.noStroke();
-      p.fill(grayValue);
+      p.fill(bubbleColor);
       p.circle(x, y, radius * 2);
 
       if (isHover) {
@@ -203,12 +208,56 @@ registerSketch('sk5', function (p) {
     if (hoveredArtistIndex !== -1) {
       drawTooltip(artistPoints[hoveredArtistIndex]);
     }
-
-    drawLegend(leftMargin + plotWidth - 230, topMargin + 10);
   };
 
+  function drawAxisNumbers(leftMargin, topMargin, plotWidth, plotHeight, minX, maxX, minY, maxY) {
+
+    p.noStroke();
+    p.fill(80);
+    p.textSize(10);
+    p.textAlign(p.CENTER, p.TOP);
+
+    for (let i = 0; i <= 5; i++) {
+      let t = i / 5;
+      let x = p.lerp(leftMargin, leftMargin + plotWidth, t);
+
+      let value = p.lerp(minX, maxX, t);
+      let label = value.toFixed(2); 
+
+      p.stroke(0);
+      p.line(x, topMargin + plotHeight, x, topMargin + plotHeight + 5);
+      p.noStroke();
+
+      p.text(label, x, topMargin + plotHeight + 10);
+    }
+
+    p.textAlign(p.RIGHT, p.CENTER);
+
+    for (let i = 0; i <= 5; i++) {
+      let t = i / 5;
+      let y = p.lerp(topMargin + plotHeight, topMargin, t);
+
+      let value = p.lerp(minY, maxY, t);
+      let label = value.toFixed(0);
+
+      p.stroke(0);
+      p.line(leftMargin - 5, y, leftMargin, y);
+      p.noStroke();
+
+      p.text(label, leftMargin - 10, y);
+    }
+  }
+
+  function getPinkColor(explicitRatio) {
+    let r = 255;
+    let g = p.map(explicitRatio, 0, 1, 200, 60);
+    let b = p.map(explicitRatio, 0, 1, 230, 140);
+
+    return p.color(r, g, b, 200);
+  }
+
   function drawTooltip(a) {
-    let boxWidth = 320;
+    let boxWidth = 340;
     let boxHeight = 120;
 
     let x = a.screenX + 16;
@@ -254,20 +303,19 @@ registerSketch('sk5', function (p) {
     p.fill(30);
     p.textAlign(p.LEFT, p.TOP);
     p.textSize(11);
-    p.text("Explicit Ratio (color)", x, y);
+    p.text("Explicit Ratio (pink scale)", x, y);
 
     for (let i = 0; i <= 10; i++) {
       let t = i / 10;
-      let grayValue = p.map(t, 0, 1, 220, 40);
-      p.fill(grayValue);
-      p.rect(x + i * 14, y + 18, 14, 10);
+      p.fill(getPinkColor(t));
+      p.rect(x + i * 18, y + 18, 18, 10);
     }
 
     p.fill(60);
     p.textAlign(p.LEFT, p.TOP);
     p.text("0%", x, y + 34);
     p.textAlign(p.RIGHT, p.TOP);
-    p.text("100%", x + 10 * 14 + 14, y + 34);
+    p.text("100%", x + 10 * 18 + 18, y + 34);
   }
 
   function formatFollowers(n) {

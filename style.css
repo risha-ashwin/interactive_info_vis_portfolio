@@ -66,3 +66,10 @@ canvas {
   height: auto;
   display: block;
 }
+
+.sketch-image {
+  height: 350px;
+  width: auto;
+  display: block;
+  margin: 8px 0 24px 0;
+}

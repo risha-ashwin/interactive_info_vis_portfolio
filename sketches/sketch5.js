@@ -111,7 +111,7 @@ registerSketch('sk5', function (p) {
     p.fill(20);
     p.textAlign(p.LEFT, p.TOP);
     p.textSize(22);
-    p.text("Artist Impact Map", 20, 16);
+    p.text("Spotify Artist Impact Map", 20, 16);
 
     p.fill(80);
     p.textSize(12);

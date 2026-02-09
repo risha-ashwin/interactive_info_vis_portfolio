@@ -116,7 +116,7 @@ registerSketch('sk5', function (p) {
     p.fill(80);
     p.textSize(12);
     p.text(
-      "Bubbles = Artists • x: Followers (log) • y: Average Track Popularity • Size: #Tracks • Color: Explicit %", 20, 46);
+      "Bubbles = Artists, x: Followers (log₁₀), y: Average Track Popularity, Size: Number of Tracks, Color: Explicit Percentage", 20, 46);
     drawLegend(20, 72);
 
     if (artistPoints.length === 0) {
@@ -163,7 +163,7 @@ registerSketch('sk5', function (p) {
     p.fill(40);
     p.textSize(12);
     p.textAlign(p.CENTER, p.CENTER);
-    p.text("Artist Followers (log scale)", leftMargin + plotWidth / 2, p.height - 40);
+    p.text("Artist Followers (log₁₀ scale)", leftMargin + plotWidth / 2, p.height - 40);
 
     p.push();
     p.translate(30, topMargin + plotHeight / 2);

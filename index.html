@@ -150,6 +150,72 @@
     <!-- Homework 5 -->
     <section id="tab5" class="tab-content" role="tabpanel">
       <div id="sketch-container-sk5" class="sketch-container"></div>
+
+      <!-- Reflection -->
+      <div class="reflection">
+
+        <h3>Why did you choose the dataset and story?</h3>
+        <p>
+          I chose this Spotify dataset from Kaggle because it allows me to analyze trends over time, compare artists and songs, and explore relationships between popularity and audience reach. The dataset includes a mix of track, artist, and album information from 2009–2025, including variables like artist popularity, artist follower count, and track popularity. This made it possible to compare artists by scale, popularity, and content.
+        </p>
+
+        <h3>Why did you choose that title for your story?</h3>
+        <p>
+          I called it “Artist Impact Map” because it maps artists into a shared space where their “impact” can be compared from multiple angles: followers (reach), popularity (mainstream success), and how much they appear in the dataset (bubble size). The word “map” also reflects that this isn’t a single ranking, but a layout that allows viewers to explore clusters and outliers.
+        </p>
+
+        <h3>Is the visualization author-driven or user-driven? What genre is it?</h3>
+        <p>
+          This visualization is mostly user-driven because the main interaction is hover, which allows viewers to choose which artist to inspect and see a summary of that artist’s data. There is no single fixed narrative path. Instead, the viewer drives what they explore. In terms of genre, it is an interactive bubble scatterplot that uses size and color as visual cues.
+        </p>
+
+        <h3>How would you walk someone through this visualization?</h3>
+        <p>
+          Each bubble represents an artist. The x-axis shows artist followers on a logarithmic scale, meaning artists with larger audiences appear farther to the right. The y-axis represents average track popularity, where higher values indicate that the artist’s tracks in the dataset are generally more popular. Bubble size indicates how many tracks from that artist appear in the dataset, so larger bubbles represent artists that dominate the data. Color uses a pink scale to show explicit ratio: lighter pink means fewer explicit tracks, while darker pink indicates a higher proportion of explicit songs.
+        </p>
+        <p>
+          Overall, the visualization shows that the dataset clusters around artists with large follower counts and mid-to-high popularity, while explicitness and track representation vary significantly. The largest bubbles highlight the most represented artists, and color reveals which artists skew more explicit.
+        </p>
+
+        <h3>Interviews and Observations</h3>
+
+        <h4>Interview 1</h4>
+        <p><strong>What they pointed out:</strong></p>
+        <ul>
+          <li>The first interviewee immediately understood that it was a scatterplot and that bubbles represented artists.</li>
+          <li>They noticed that the largest cluster appeared on the right side, indicating that most artists have high follower counts.</li>
+          <li>They frequently used hover to inspect specific artists they recognized.</li>
+          <li>They correctly interpreted darker pink as indicating more explicit content after referencing the legend.</li>
+        </ul>
+        <p><strong>Narrative they picked up:</strong></p>
+        <blockquote>
+          “Most of these artists are mainstream, and a lot of the music is at least somewhat explicit, but not all of it.”
+        </blockquote>
+
+        <h4>Interview 2</h4>
+        <p><strong>What they pointed out:</strong></p>
+        <ul>
+          <li>They noticed bubble size first and asked if larger bubbles meant the artist appeared more often in the dataset.</li>
+          <li>They appreciated the hover overview because it answered the question, “What am I looking at?”</li>
+          <li>They said the log scale made sense but felt the numerical values looked “math-heavy” and weren’t immediately intuitive.</li>
+          <li>They confirmed that the legend helped them understand the color pattern.</li>
+        </ul>
+        <p><strong>Narrative they picked up:</strong></p>
+        <blockquote>
+          “This shows which artists show up the most in your dataset and how their popularity compares.”
+        </blockquote>
+
+        <h3>What design principles guided your encoding choices?</h3>
+        <p>
+          I focused on readability and consistency. I used position to compare followers and popularity, size to represent frequency (track count), and color intensity to display explicit ratio. I also used a logarithmic scale for followers so that extremely popular artists wouldn’t overwhelm the chart and smaller artists would still be visible.
+        </p>
+
+        <h3>How did you ensure clarity, hierarchy, and memorability?</h3>
+        <p>
+          For clarity, I included axis labels, tick marks, and a legend placed outside the plot so it wouldn’t obscure the data. In terms of hierarchy, the title is most prominent, followed by a short explanation of how to read the visualization, and then the plot itself. Detailed artist information is revealed only on hover to avoid clutter. For memorability, the pink color scale makes explicitness stand out, while bubble size helps viewers remember which artists dominate the dataset. The hover interaction also helps connect abstract shapes to real artist names.
+        </p>
+
+      </div>
     </section>
 
   </main>

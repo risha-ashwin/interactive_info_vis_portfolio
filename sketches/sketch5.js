@@ -3,9 +3,7 @@ registerSketch('sk5', function (p) {
   let csvFileName = "datasets/spotify_data clean.csv";
 
   let dataTable;
-
   let artistPoints = [];
-
   let hoveredArtistIndex = -1;
 
   p.preload = function () {
@@ -101,7 +99,9 @@ registerSketch('sk5', function (p) {
 
     let leftMargin = 90;
     let rightMargin = 40;
-    let topMargin = 130;
+
+    let topMargin = 150;
+
     let bottomMargin = 90;
 
     let plotWidth = p.width - leftMargin - rightMargin;
@@ -110,19 +110,24 @@ registerSketch('sk5', function (p) {
     p.noStroke();
     p.fill(20);
     p.textAlign(p.LEFT, p.TOP);
-    p.textSize(22);
-    p.text("Spotify Artist Impact Map", 20, 16);
+
+    p.textSize(26);
+    p.text("Measuring Artist Success on Spotify: More Than Just Followers", 20, 14);
 
     p.fill(80);
-    p.textSize(12);
+    p.textSize(13);
     p.text(
-      "Bubbles = Artists, x: Followers (log₁₀), y: Average Track Popularity, Size: Number of Tracks, Color: Explicit Percentage", 20, 46);
-    drawLegend(20, 72);
+      "Explore the biggest artists using multiple measures: x: followers (reach), y: average track popularity (impact), and bubble size: track count (output).",
+      20,
+      48
+    );
+
+    drawLegend(20, 78);
 
     if (artistPoints.length === 0) {
       p.fill(20);
       p.textSize(14);
-      p.text("No points to draw. Check the CSV path + column names.", 20, 100);
+      p.text("No points to draw. Check the CSV path + column names.", 20, 120);
       return;
     }
 
@@ -163,12 +168,12 @@ registerSketch('sk5', function (p) {
     p.fill(40);
     p.textSize(12);
     p.textAlign(p.CENTER, p.CENTER);
-    p.text("Artist Followers (log₁₀ scale)", leftMargin + plotWidth / 2, p.height - 40);
+    p.text("Followers (Reach, log₁₀ scale)", leftMargin + plotWidth / 2, p.height - 40);
 
     p.push();
     p.translate(30, topMargin + plotHeight / 2);
     p.rotate(-Math.PI / 2);
-    p.text("Average Track Popularity (0–100)", 0, 0);
+    p.text("Avg Track Popularity (Impact, 0–100)", 0, 0);
     p.pop();
 
     drawAxisNumbers(leftMargin, topMargin, plotWidth, plotHeight, minX, maxX, minY, maxY);
@@ -182,7 +187,6 @@ registerSketch('sk5', function (p) {
       let y = p.map(a.avgPopularity, minY, maxY, topMargin + plotHeight, topMargin);
 
       let radius = p.map(Math.sqrt(a.trackCount), 1, Math.sqrt(maxTrackCount), 6, 30);
-
       let bubbleColor = getPinkColor(a.explicitRatio);
 
       let distToMouse = p.dist(p.mouseX, p.mouseY, x, y);
@@ -211,7 +215,6 @@ registerSketch('sk5', function (p) {
   };
 
   function drawAxisNumbers(leftMargin, topMargin, plotWidth, plotHeight, minX, maxX, minY, maxY) {
-
     p.noStroke();
     p.fill(80);
     p.textSize(10);
@@ -222,7 +225,7 @@ registerSketch('sk5', function (p) {
       let x = p.lerp(leftMargin, leftMargin + plotWidth, t);
 
       let value = p.lerp(minX, maxX, t);
-      let label = value.toFixed(2); 
+      let label = value.toFixed(2);
 
       p.stroke(0);
       p.line(x, topMargin + plotHeight, x, topMargin + plotHeight + 5);
@@ -252,7 +255,6 @@ registerSketch('sk5', function (p) {
     let r = 255;
     let g = p.map(explicitRatio, 0, 1, 200, 60);
     let b = p.map(explicitRatio, 0, 1, 230, 140);
-
     return p.color(r, g, b, 200);
   }
 
@@ -300,22 +302,28 @@ registerSketch('sk5', function (p) {
 
   function drawLegend(x, y) {
     p.noStroke();
-    p.fill(30);
+    p.fill(35);
     p.textAlign(p.LEFT, p.TOP);
-    p.textSize(11);
-    p.text("Explicit Ratio (pink scale)", x, y);
+    p.textSize(16);
+    p.text("Legend: Color shows Explicit Ratio (lighter → lower, darker → higher)", x, y);
+
+    let sw = 28;   
+    let sh = 14;
+    let top = y + 26;
 
     for (let i = 0; i <= 10; i++) {
       let t = i / 10;
       p.fill(getPinkColor(t));
-      p.rect(x + i * 18, y + 18, 18, 10);
+      p.rect(x + i * sw, top, sw, sh, 2);
     }
 
-    p.fill(60);
+    p.fill(70);
+    p.textSize(12);
     p.textAlign(p.LEFT, p.TOP);
-    p.text("0%", x, y + 34);
+    p.text("0% explicit", x, top + sh + 8);
+
     p.textAlign(p.RIGHT, p.TOP);
-    p.text("100%", x + 10 * 18 + 18, y + 34);
+    p.text("100% explicit", x + 10 * sw + sw, top + sh + 8);
   }
 
   function formatFollowers(n) {
@@ -325,5 +333,4 @@ registerSketch('sk5', function (p) {
     if (n >= 1000) return (n / 1000).toFixed(1) + "K";
     return String(Math.round(n));
   }
-
 });
